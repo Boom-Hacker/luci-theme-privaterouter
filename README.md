@@ -1,6 +1,6 @@
 # PrivateRouter LuCi Theme for OpenWrt
 
-**A modern, Material Design 3 inspired theme and simplified UI for OpenWrt routers** -- built for beginners, loved by power users.
+**A modern, Material Design 3 inspired theme and simplified UI for OpenWrt routers** -- built for beginners, loved by OpenWRT nerds.
 
 The PrivateRouter OAT Theme transforms the standard OpenWrt LuCI interface into a clean, card-based experience that anyone can use. No terminal commands, no config files -- just a beautiful web UI for managing your router, your VPN connections, your Wi-Fi mesh network, and more.
 
