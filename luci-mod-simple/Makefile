@@ -11,28 +11,35 @@ LUCI_TITLE:=LuCI Simple Mode Module
 LUCI_DESCRIPTION:=Simplified LuCI interface pages for everyday router management. Provides clean, modern views for Wi-Fi, Internet, VPN, Docker, Devices, and System settings. Works with the OAT theme Simple/Advanced mode toggle.
 LUCI_DEPENDS:=+luci-base +luci-theme-oat +luci-mod-dashboard
 LUCI_PKGARCH:=all
+LUCI_TYPE:=mod
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/simple
 	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/simple/css
+	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/simple/i18n
+	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/simple/flags
 	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
 	$(INSTALL_DIR) $(1)/usr/share/luci/menu.d
-
-	$(INSTALL_DATA) ./htdocs/luci-static/resources/view/simple/*.js $(1)/www/luci-static/resources/view/simple/
-	$(INSTALL_DATA) ./htdocs/luci-static/resources/view/simple/css/*.css $(1)/www/luci-static/resources/view/simple/css/
-	$(INSTALL_DATA) ./root/usr/share/rpcd/acl.d/*.json $(1)/usr/share/rpcd/acl.d/
-	$(INSTALL_DATA) ./root/usr/share/luci/menu.d/*.json $(1)/usr/share/luci/menu.d/
-
 	$(INSTALL_DIR) $(1)/usr/share/privaterouter/ipks
-	$(INSTALL_DATA) ./ipks/*.ipk $(1)/usr/share/privaterouter/ipks/
 
-	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/simple/i18n
-	$(INSTALL_DATA) ./htdocs/luci-static/resources/view/simple/i18n/*.json $(1)/www/luci-static/resources/view/simple/i18n/
+	[ -d ./htdocs/luci-static/resources/view/simple ] && \
+		$(CP) ./htdocs/luci-static/resources/view/simple/*.js $(1)/www/luci-static/resources/view/simple/ || true
+	[ -d ./htdocs/luci-static/resources/view/simple/css ] && \
+		$(CP) ./htdocs/luci-static/resources/view/simple/css/*.css $(1)/www/luci-static/resources/view/simple/css/ || true
+	[ -d ./htdocs/luci-static/resources/view/simple/i18n ] && \
+		$(CP) ./htdocs/luci-static/resources/view/simple/i18n/*.json $(1)/www/luci-static/resources/view/simple/i18n/ || true
+	[ -d ./htdocs/luci-static/resources/view/simple/flags ] && \
+		$(CP) ./htdocs/luci-static/resources/view/simple/flags/*.svg $(1)/www/luci-static/resources/view/simple/flags/ || true
 
-	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/simple/flags
-	$(INSTALL_DATA) ./htdocs/luci-static/resources/view/simple/flags/*.svg $(1)/www/luci-static/resources/view/simple/flags/
+	[ -d ./root/usr/share/rpcd/acl.d ] && \
+		$(CP) ./root/usr/share/rpcd/acl.d/*.json $(1)/usr/share/rpcd/acl.d/ || true
+	[ -d ./root/usr/share/luci/menu.d ] && \
+		$(CP) ./root/usr/share/luci/menu.d/*.json $(1)/usr/share/luci/menu.d/ || true
+
+	[ -d ./ipks ] && \
+		$(CP) ./ipks/*.ipk $(1)/usr/share/privaterouter/ipks/ || true
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
